@@ -1,9 +1,33 @@
 package hamming_test
 
 import (
+	"fmt"
 	"slices"
 	"testing"
+
+	"github.com/itsubaki/code/matrix"
 )
+
+func Example() {
+	H := [][]int{
+		{0, 0, 0, 1, 1, 1, 1},
+		{0, 1, 1, 0, 0, 1, 1},
+		{1, 0, 1, 0, 1, 0, 1},
+	}
+
+	G := [][]int{
+		{1, 0, 0, 1, 1, 0, 0},
+		{0, 1, 0, 1, 0, 1, 0},
+		{0, 0, 1, 1, 0, 0, 1},
+		{0, 0, 0, 1, 1, 1, 1},
+	}
+
+	GHT := matrix.MatMul(G, matrix.Transpose(H))
+	fmt.Println(matrix.IsZero(GHT))
+
+	// Output:
+	// true
+}
 
 func Test_parityCheckMatrix(t *testing.T) {
 	H := [][]int{
