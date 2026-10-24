@@ -37,88 +37,82 @@ func Test_steane(t *testing.T) {
 	}
 
 	cases := []struct {
-		r        []int
-		syndrome []int
+		r    []int
+		want []int // syndrome
 	}{
 		// 0L
 		{
-			r:        []int{0, 0, 0, 0, 0, 0, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 0, 0, 0, 0, 0, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 0, 1, 0, 1, 0, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 0, 1, 0, 1, 0, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 1, 1, 0, 0, 1, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 1, 1, 0, 0, 1, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 1, 0, 0, 1, 1, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 1, 0, 0, 1, 1, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 0, 0, 1, 1, 1, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 0, 0, 1, 1, 1, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 0, 1, 1, 0, 1, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 0, 1, 1, 0, 1, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 1, 1, 1, 1, 0, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 1, 1, 1, 1, 0, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 1, 0, 1, 0, 0, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 1, 0, 1, 0, 0, 1},
+			want: []int{0, 0, 0},
 		},
 		// 1L
 		{
-			r:        []int{1, 1, 1, 1, 1, 1, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 1, 1, 1, 1, 1, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 1, 0, 1, 0, 1, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 1, 0, 1, 0, 1, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 0, 0, 1, 1, 0, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 0, 0, 1, 1, 0, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 0, 1, 1, 0, 0, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 0, 1, 1, 0, 0, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 1, 1, 0, 0, 0, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 1, 1, 0, 0, 0, 0},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 1, 0, 0, 1, 0, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 1, 0, 0, 1, 0, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{1, 0, 0, 0, 0, 1, 1},
-			syndrome: []int{0, 0, 0},
+			r:    []int{1, 0, 0, 0, 0, 1, 1},
+			want: []int{0, 0, 0},
 		},
 		{
-			r:        []int{0, 0, 1, 0, 1, 1, 0},
-			syndrome: []int{0, 0, 0},
+			r:    []int{0, 0, 1, 0, 1, 1, 0},
+			want: []int{0, 0, 0},
 		},
 	}
 
 	for _, c := range cases {
-		syndrome := make([]int, len(H))
-		for i := range H {
-			for j := range c.r {
-				syndrome[i] ^= H[i][j] & c.r[j]
-			}
-		}
-
-		if !slices.Equal(syndrome, c.syndrome) {
+		syndrome := matrix.Apply(H, c.r)
+		if !slices.Equal(syndrome, c.want) {
 			t.Errorf("syndrome mismatch: got %v, want %v",
-				syndrome, c.syndrome)
+				syndrome, c.want)
 		}
 	}
 }

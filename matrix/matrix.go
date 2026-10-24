@@ -35,6 +35,17 @@ func MatMul(A, B [][]int) [][]int {
 	return C
 }
 
+func Apply(H [][]int, v []int) []int {
+	C := make([]int, len(H))
+	for i := range H {
+		for j := range v {
+			C[i] ^= H[i][j] & v[j]
+		}
+	}
+
+	return C
+}
+
 func IsZero(A [][]int) bool {
 	for i := range A {
 		for j := range A[i] {
