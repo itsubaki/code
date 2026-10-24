@@ -5,8 +5,38 @@ import (
 	"slices"
 	"testing"
 
+	"github.com/itsubaki/code/hamming"
 	"github.com/itsubaki/code/matrix"
 )
+
+func ExampleMatrices() {
+	G, H := hamming.Matrices(7, 4)
+
+	for _, row := range G {
+		fmt.Println(row)
+	}
+	fmt.Println(".")
+
+	for _, row := range H {
+		fmt.Println(row)
+	}
+	fmt.Println(".")
+
+	GHT := matrix.MatMul(G, matrix.Transpose(H))
+	fmt.Println(matrix.IsZero(GHT))
+
+	// Output:
+	// [1 0 0 0 1 1 0]
+	// [0 1 0 0 1 0 1]
+	// [0 0 1 0 0 1 1]
+	// [0 0 0 1 1 1 1]
+	// .
+	// [1 1 0 1 1 0 0]
+	// [1 0 1 1 0 1 0]
+	// [0 1 1 1 0 0 1]
+	// .
+	// true
+}
 
 func Example() {
 	H := [][]int{
